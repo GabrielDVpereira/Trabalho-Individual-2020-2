@@ -10,16 +10,16 @@
 
 ## Containerização 
 
-Para ambos os projetos foi criado um dockerfile com as devidas instruções para a construção das imagens que irão rodas as aplicações em desenvolvimento: 
+Para ambos os projetos foi criado um dockerfile com as devidas instruções para a construção das imagens que irão executar as aplicações em desenvolvimento: 
 
 - Dockerfile api: [file](https://github.com/GabrielDVpereira/Trabalho-Individual-2020-2/blob/master/api/dockerfile)
 - Dockerfile client: [file](https://github.com/GabrielDVpereira/Trabalho-Individual-2020-2/blob/master/client/dockerfile)
 
-Após a criação dos dockerfiles individuais, foi criado um docker-compose para a devida orquestração dos containers de cada módulo. Além disso, foi adicionado o container do banco de dados utilizando a imagem do postgres:13 mapeado na porta 5432: 
+Após a criação de cada dockerfile, foi criado um docker-compose para a devida orquestração dos containers de cada módulo. Além disso, foi adicionado o container de banco de dados utilizando a imagem do postgres:13 mapeado na porta 5432: 
 
 - Docker-compose: [file](https://github.com/GabrielDVpereira/Trabalho-Individual-2020-2/blob/master/docker-compose.yaml)
 
-Para dar início a aplicação rodando em docker, basta entrar na pasta raiz do projeto e executar o comando: 
+Para dar início a aplicação em execução em ambiente docker, basta entrar na pasta raiz do projeto e executar o comando: 
 
 ```sh
 docker-compose up --build
@@ -32,7 +32,7 @@ Obs: Há casos em que a porta 5432 já esteja em uso. Caso isso aconteça, a exe
 
 ## Continous Integration 
 
-Para a integração contínua, foi usando o githubActions. Para cada módulo, foi criado um workflow que executa os comandos de linting e testes para cada push em branches do projeto. A branch _master_ foi configurada para aceitar integrações de outras branches somente se todos os jobs configurados nos workflows forem executados com sucesso. A seguir, os arquivos de cada ci: 
+Para a integração contínua, foi utilizado o github Actions. Para cada módulo, foi criado um workflow que executa os comandos de linting e testes para cada push em branches do projeto. A branch _master_ foi configurada para aceitar integrações de outras branches somente se todos os jobs configurados nos workflows forem executados com sucesso. A seguir, os arquivos de cada ci: 
 
 - api: [file](https://github.com/GabrielDVpereira/Trabalho-Individual-2020-2/blob/master/.github/workflows/ci-api.yaml)
 - client: [file](https://github.com/GabrielDVpereira/Trabalho-Individual-2020-2/blob/master/.github/workflows/ci-client.yaml)
@@ -47,7 +47,7 @@ Obs: Para o ci do client, foi criado um step que coleta a cobertura gerado pelos
 
 ## Coleta de métricas de qualidade
 
-Para a coleta de métricas de qualidade, foi configurado para o projeto a utilização da ferramenta [sonarcloud](https://sonarcloud.io/). Com isso, o acontece o monitoramento de tudo que é integrado com o projeto. Infomações como bugs, code smells e etc são mostrados após cada pull request para certificar a saúde do código a ser integrado. Há também no próprio site do sonarcloud um dashboard para monitoramento da métricas coletadas. 
+Para a coleta de métricas de qualidade, foi configurado para o projeto a utilização da ferramenta [sonarcloud](https://sonarcloud.io/). Com isso, há o monitoramento constante da qualidade do código em produção. Infomações como bugs, code smells e etc são mostrados após cada pull request para certificar a saúde do código a ser integrado. Há também no próprio site do sonarcloud um dashboard para monitoramento da métricas coletadas. 
 
 ![image](https://user-images.githubusercontent.com/37307099/116794135-3fb1b700-aaa1-11eb-9112-5be171e56333.png)
 
