@@ -2,92 +2,80 @@
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=GabrielDVpereira_Trabalho-Individual-2020-2&metric=bugs)](https://sonarcloud.io/dashboard?id=GabrielDVpereira_Trabalho-Individual-2020-2) [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=GabrielDVpereira_Trabalho-Individual-2020-2&metric=code_smells)](https://sonarcloud.io/dashboard?id=GabrielDVpereira_Trabalho-Individual-2020-2) [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=GabrielDVpereira_Trabalho-Individual-2020-2&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=GabrielDVpereira_Trabalho-Individual-2020-2) [![Coverage Status](https://coveralls.io/repos/github/GabrielDVpereira/Trabalho-Individual-2020-2/badge.svg?branch=coveralls)](https://coveralls.io/github/GabrielDVpereira/Trabalho-Individual-2020-2?branch=coveralls)
 
 
-# Trabalho Individual 2020.2
+# Trabalho Individual 2020.2 
+
+| Aluno | Matrícula |
+|-------| :-------: |
+| Gabriel Davi | 170010341 |
+
+## Containerização 
+
+Para ambos os projetos foi criado um dockerfile com as devidas instruções para a construção das imagens que irão rodas as aplicações em desenvolvimento: 
+
+- Dockerfile api: [file](https://github.com/GabrielDVpereira/Trabalho-Individual-2020-2/blob/master/api/dockerfile)
+- Dockerfile client: [file](https://github.com/GabrielDVpereira/Trabalho-Individual-2020-2/blob/master/client/dockerfile)
+
+Após a criação dos dockerfiles individuais, foi criado um docker-compose para a devida orquestração dos containers de cada módulo. Além disso, foi adicionado o container do banco de dados utilizando a imagem do postgres:13 mapeado na porta 5432: 
+
+- Docker-compose: [file](https://github.com/GabrielDVpereira/Trabalho-Individual-2020-2/blob/master/docker-compose.yaml)
+
+Para dar início a aplicação rodando em docker, basta entrar na pasta raiz do projeto e executar o comando: 
+
+```sh
+docker-compose up --build
+```
+ O resuldado do comando deve ser o seguinte: 
+ 
+ ![image](https://user-images.githubusercontent.com/37307099/116793729-d7fa6c80-aa9e-11eb-9bde-6da276d68fa0.png)
+
+Obs: Há casos em que a porta 5432 já esteja em uso. Caso isso aconteça, a execução do comando acima irá resultar em um erro para a execução do container para o postgres. Certifique-se que a porta não está em uso através do comando: _sudo lsof -i -P -n | grep LISTEN_ .
+
+## Continous Integration 
+
+Para a integração contínua, foi usando o githubActions. Para cada módulo, foi criado um workflow que executa os comandos de linting e testes para cada push em branches do projeto. A branch _master_ foi configurada para aceitar integrações de outras branches somente se todos os jobs configurados nos workflows forem executados com sucesso. A seguir, os arquivos de cada ci: 
+
+- api: [file](https://github.com/GabrielDVpereira/Trabalho-Individual-2020-2/blob/master/.github/workflows/ci-api.yaml)
+- client: [file](https://github.com/GabrielDVpereira/Trabalho-Individual-2020-2/blob/master/.github/workflows/ci-client.yaml)
+
+![image](https://user-images.githubusercontent.com/37307099/116793963-412eaf80-aaa0-11eb-815b-d74f9e437175.png)
+
+![image](https://user-images.githubusercontent.com/37307099/116793980-54417f80-aaa0-11eb-9df5-c40b503395ae.png)
+
+Obs: Para o ci do client, foi criado um step que coleta a cobertura gerado pelos testes e publica no Coveralls 
+
+![image](https://user-images.githubusercontent.com/37307099/116794022-a1bdec80-aaa0-11eb-9421-ac8d1ad78879.png)
+
+## Coleta de métricas de qualidade
+
+Para a coleta de métricas de qualidade, foi configurado para o projeto a utilização da ferramenta [sonarcloud](https://sonarcloud.io/). Com isso, o acontece o monitoramento de tudo que é integrado com o projeto. Infomações como bugs, code smells e etc são mostrados após cada pull request para certificar a saúde do código a ser integrado. Há também no próprio site do sonarcloud um dashboard para monitoramento da métricas coletadas. 
+
+![image](https://user-images.githubusercontent.com/37307099/116794135-3fb1b700-aaa1-11eb-9112-5be171e56333.png)
+
+![image](https://user-images.githubusercontent.com/37307099/116794146-50fac380-aaa1-11eb-85f1-36655262baf2.png)
+
+## Deploy e Continous Deployment
+
+Ambas as aplicações foram hospedadas no heroku. Seguem os links dos projetos em produção: 
+- api: [link](https://trabalho-gces-api.herokuapp.com/task/)
+- Client: [link](https://trabalho-gces-client.herokuapp.com/#/)
+
+Para os dois módulos do projeto, foram criados workflows que realizam o deploy automátido para o heroku através das imagens do docker toda vez que é integrado um código na branch principal. Para isso, foi criado em cada projeto um arquivo dockerfile.prod que realiza as devidas configurações necessárias para que o deploy contínuo seja realizado com sucesso. A seguir os links para cada dockerfile e também para os workflows responsávieis pelo Continous Deployment. 
+
+ ### Dockerfiles: 
+ 
+- api: [file](https://github.com/GabrielDVpereira/Trabalho-Individual-2020-2/blob/master/api/dockerfile.prod)
+- Client: [file](https://github.com/GabrielDVpereira/Trabalho-Individual-2020-2/blob/master/client/dockerfile.prod)
+
+ ### Workflows:
+ 
+- api: [file](https://github.com/GabrielDVpereira/Trabalho-Individual-2020-2/blob/master/.github/workflows/cd-api.yaml)
+- Client: [file](https://github.com/GabrielDVpereira/Trabalho-Individual-2020-2/blob/master/.github/workflows/cd-client.yaml)
 
 
-A Gestão de Configuração de Software é parte fundamental no curso de GCES, e dominar os conhecimentos de configuração de ambiente, containerização, virtualização, integração e deploy contínuo tem se tornado cada vez mais necessário para ingressar no mercado de trabalho.
+## Coveralls
 
-Para exercitar estes conhecimentos, você deverá aplicar os conceitos estudados ao longo da disciplina no produto de software contido neste repositório.
+Como já citado na etapa de CI, foi configurado junto aos passos a coleta de cobertura de testes e sua publicação no coveralls, essa informação também é mostrada junto a outros checks durante a abertura de um pull resquest
 
-O sistema se trata de uma aplicação Web, cuja funcionalidade consiste numa lista de tarefas, que é composta de:
-- Front-end escrito em Javascript, utilizando os frameworks Vue.JS e Quasar;
-- Back-end escrito em Django REST;
-- Banco de Dados PostgreSQL;
-
-Para executar a aplicação em sua máquina, basta seguir o passo-a-passo descrito no arquivos s README das pastas [api](./api/README.md) e [client](./client/README.md).
-
-
-## Critérios de avaliação
-
-### 1. Containerização
-
-A aplicação deverá ter seu ambiente completamente containerizado. Desta forma, cada subsistema (Front-end, Back-end e Banco de Dados) deverá ser isolado em um container individual.
-
-Deverá ser utilizado um orquestrador para gerenciar comunicação entre os containers, o uso de credenciais, networks, volumes, entre outras configurações necessárias para a correta execução da aplicação.
-
-Para realizar esta parte do trabalho, recomenda-se a utilização das ferramentas:
-
-- Docker versão 17.04.0+
-- Docker Compose com sintaxe na versão 3.2+
-
-### 2. Integração contínua
-
-Você deverá criar um 'Fork' deste repositório, onde será desenvolvida sua solução. Nele, cada commit submetido deverá passar por um sistema de integração contínua, realizando os seguintes estágios:
-
-- Build: Construção completa do ambiente;
-- Testes: Os testes automatizados da aplicação devem ser executados;
-- Análise Estática de código: Deverá ser realizada a integração com algum serviço externo de análise estática de código fonte (Ex: Code Climate), análise de folhas de estilo (Stylesheet / Linter);
-- Análise de cobertura de testes: Devera será ser incluida também uma ferramenta para apontar a métrica de cobertura de testes.
-
-O sistema de integração contínua deve exibir as informações de cada pipeline, e impedir que trechos de código que não passem corretamente por todo o processo sejam adicionados à 'branch default' do repositório.
-
-Para esta parte do trabalho, poderá ser utilizada qualquer tecnologia ou ferramenta que o aluno desejar, como GitlabCI, Actions, TravisCI, CircleCI, Jenkins, CodeClimate, entre outras.
-
-### 3. Deploy contínuo
-
-Também deve ser feita a configuração de um pipeline de modo a publicar a aplicação automaticamente, sempre que um novo trecho de código seja integrado à branch default.
-
-Assim como na Integração Contínua, poderá ser utilizado qualquer servidor de cloud que o aluno desejar, como DigitalOcean, Heroku, AWS, entre outros.
-
-### 4. Kubernets (extra)
-
-Caso cumpra todos os requisitos descritos acima, será atribuída uma pontuação extra para o aluno que configure o deploy com Kubernets.
-
-## Nota
-
-A nota de cada aluno será a soma dos itens abaixo que serão avaliados tanto de forma quantitativa (se foi realizado a implementação + documentação), quanto qualitativamente (como foi implementado, entendimento dos conceitos na prática, complexidade da solução). Faça os commits atômicos, bem documentados, completos a fim de facilitar o entendimento e avaliação do seu trabalho. Lembrando que esse trabalho é individual. 
-
-Os Itens de avaliação são (cada item tem peso 1 na nota final de 0 - 10):
-
-**1. Containerização**
-
-- Container do Back-end
-- Container do Front-end
-- Container do Banco de Dados
-- Automação entre os containers (Docker-compose)
-
-**2. Integração contínua (Front-end)**
-
-- Build: Construção completa do ambiente
-- Testes: Os testes automatizados da aplicação devem ser executados
-- Coleta de métricas: Deverá ser realizada a integração com algum serviço externo de coleta de métricas de qualidade;
-
-Regras de avaliação: O sistema de integração contínua deve exibir as informações de cada pipeline, e impedir que trechos de código que não passem corretamente por todo o processo sejam adicionados à 'branch default' do repositório.
-
-**3. Integração contínua (Back-end)**
-
-- Build: Construção completa do ambiente
-- Testes: Os testes automatizados da aplicação devem ser executados
-- Coleta de métricas: Deverá ser realizada a integração com algum serviço externo de coleta de métricas de qualidade;
-
-Regras de avaliação: O sistema de integração contínua deve exibir as informações de cada pipeline, e impedir que trechos de código que não passem corretamente por todo o processo sejam adicionados à 'branch default' do repositório.
-
-**4. Coverage (Extra)**
-
-Caso cumpra todos os requisitos obrigatórios descritos acima, será atribuída uma pontuação extra para o aluno que configure sua pipeline de modo a coletar a porcentagem de cobertura de testes na aplicação (Back end e Front end).
-
-**5. Deploy contínuo (Extra)**
-
-Caso cumpra todos os requisitos obrigatórios descritos acima, será atribuída uma pontuação extra para o aluno que configure sua pipeline de modo a publicar a aplicação automaticamente, sempre que um novo trecho de código seja integrado à branch default.
+![image](https://user-images.githubusercontent.com/37307099/116794430-2e69aa00-aaa3-11eb-97fe-d13b79f8cc17.png)
 
 
