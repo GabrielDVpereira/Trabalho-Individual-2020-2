@@ -19,7 +19,7 @@ Após a criação de cada dockerfile, foi criado um docker-compose para a devida
 
 - Docker-compose: [file](https://github.com/GabrielDVpereira/Trabalho-Individual-2020-2/blob/master/docker-compose.yaml)
 
-Para dar início a aplicação em execução em ambiente docker, basta entrar na pasta raiz do projeto e executar o comando: 
+Para dar início à aplicação em execução em ambiente docker, basta entrar na pasta raiz do projeto e executar o comando: 
 
 ```sh
 docker-compose up --build
