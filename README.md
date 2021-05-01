@@ -1,3 +1,11 @@
+
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=GabrielDVpereira_Trabalho-Individual-2020-2&metric=bugs)](https://sonarcloud.io/dashboard?id=GabrielDVpereira_Trabalho-Individual-2020-2)
+
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=GabrielDVpereira_Trabalho-Individual-2020-2&metric=code_smells)](https://sonarcloud.io/dashboard?id=GabrielDVpereira_Trabalho-Individual-2020-2)
+
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=GabrielDVpereira_Trabalho-Individual-2020-2&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=GabrielDVpereira_Trabalho-Individual-2020-2)
+
+
 # Trabalho Individual 2020.2
 
 
