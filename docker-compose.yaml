@@ -8,12 +8,8 @@ services:
       - "8000:8000"
     volumes:
       - ./api:/app
-    environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: myproject
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
+    env_file:
+      - database.env
 
   client:
     build: ./client
@@ -31,7 +27,5 @@ services:
     image: postgres:13
     ports:
       - "5432:5432"
-    environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: myproject
+    env_file:
+      - database.env
